@@ -1,8 +1,12 @@
-package com.example.githubclient
+package com.example.githubclient.data
 
 import android.os.Handler
 import android.os.Looper
+import com.example.githubclient.domain.UserEntity
+import com.example.githubclient.domain.UsersRepo
+
 private const val DATA_LOADING_FAKE_DELAY = 2000L
+
 class FakeUsersRepoImpl: UsersRepo {
     private val data: List<UserEntity> = listOf(
         UserEntity("mojombo", 1, "https://avatars.githubusercontent.com/u/1?v=4"),

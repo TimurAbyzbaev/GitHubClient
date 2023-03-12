@@ -1,4 +1,4 @@
-package com.example.githubclient
+package com.example.githubclient.domain
 
 data class UserEntity(
     val login: String,
