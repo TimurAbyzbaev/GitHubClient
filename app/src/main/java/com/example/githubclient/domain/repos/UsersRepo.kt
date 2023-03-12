@@ -1,6 +1,6 @@
-package com.example.githubclient.domain
+package com.example.githubclient.domain.repos
 
-import com.example.githubclient.domain.UserEntity
+import com.example.githubclient.domain.entities.UserEntity
 
 interface UsersRepo {
     //CRUD

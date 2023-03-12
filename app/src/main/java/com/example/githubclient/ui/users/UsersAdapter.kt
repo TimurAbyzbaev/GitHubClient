@@ -3,7 +3,7 @@ package com.example.githubclient.ui.users
 import android.annotation.SuppressLint
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.githubclient.domain.UserEntity
+import com.example.githubclient.domain.entities.UserEntity
 
 class UsersAdapter: RecyclerView.Adapter<UsersViewHolder>() {
     private val data = mutableListOf<UserEntity>()

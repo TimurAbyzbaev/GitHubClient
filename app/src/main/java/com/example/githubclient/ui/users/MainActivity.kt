@@ -5,11 +5,9 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.githubclient.App
 import com.example.githubclient.app
-import com.example.githubclient.data.FakeUsersRepoImpl
-import com.example.githubclient.domain.UserEntity
-import com.example.githubclient.domain.UsersRepo
+import com.example.githubclient.domain.entities.UserEntity
+import com.example.githubclient.domain.repos.UsersRepo
 import com.example.githubclient.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
