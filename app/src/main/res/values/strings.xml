@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">GitHubClient</string>
+    <string name="buttonText">Refresh!</string>
 </resources>
