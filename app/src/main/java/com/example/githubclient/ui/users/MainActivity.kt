@@ -7,48 +7,51 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.githubclient.app
 import com.example.githubclient.domain.entities.UserEntity
-import com.example.githubclient.domain.repos.UsersRepo
 import com.example.githubclient.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), UsersContract.View {
     private lateinit var binding: ActivityMainBinding
     private val adapter = UsersAdapter()
-    private val usersRepo: UsersRepo by lazy { app.usersRepo }
+    private lateinit var presenter: UsersContract.Presenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        initView()
+
+        initViews()
+
+        presenter = extractPresenter()
+        presenter.attach(this)
     }
 
-    private fun initView() {
+    private fun extractPresenter(): UsersContract.Presenter {
+        return lastCustomNonConfigurationInstance as? UsersContract.Presenter
+            ?: UsersPresenter(app.usersRepo)
+    }
+
+    override fun onDestroy() {
+        presenter.detach()
+        super.onDestroy()
+    }
+
+    override fun onRetainCustomNonConfigurationInstance(): UsersContract.Presenter? {
+        return presenter
+    }
+
+    private fun initViews() {
         showProgress(false)
         binding.refreshButton.setOnClickListener {
-            loadData()
+            presenter.onRefresh()
         }
         initRecycleView()
     }
 
-    private fun loadData(){
-        showProgress(true)
-        usersRepo.getUsers(
-            onSuccess = {
-                showProgress(false)
-                onDataLoaded(it)
-            },
-            onError = {
-                showProgress(false)
-                onError(it)
-            }
-        )
-    }
-
-    private fun onDataLoaded(data: List<UserEntity>){
+    override fun showUsers(data: List<UserEntity>) {
         adapter.setData(data)
     }
 
-    private fun onError(throwable: Throwable){
+    override fun showError(throwable: Throwable) {
         Toast.makeText(this, throwable.message, Toast.LENGTH_SHORT).show()
     }
 
@@ -57,7 +60,7 @@ class MainActivity : AppCompatActivity() {
         binding.usersRecyclerView.adapter = adapter
     }
 
-    private fun showProgress(inProgress: Boolean){
+    override fun showProgress(inProgress: Boolean) {
         binding.progressBar.isVisible = inProgress
         binding.usersRecyclerView.isVisible = !inProgress
     }
