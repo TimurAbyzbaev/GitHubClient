@@ -14,7 +14,7 @@ interface UsersContract {
 
     interface ViewModel {
         val usersLiveData: LiveData<List<UserEntity>>
-        val errorLiveData: LiveData<Throwable>
+        val errorLiveData: LiveData<Throwable>?
         val progressLiveData: LiveData<Boolean>
 
     fun onRefresh()

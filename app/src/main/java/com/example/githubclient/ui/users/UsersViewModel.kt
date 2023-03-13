@@ -9,7 +9,7 @@ class UsersViewModel(
     private val usersRepo: UsersRepo
 ) : UsersContract.ViewModel {
     override val usersLiveData: LiveData<List<UserEntity>> = MutableLiveData()
-    override val errorLiveData: LiveData<Throwable> = MutableLiveData()
+    override val errorLiveData: LiveData<Throwable?> = MutableLiveData() //single event
     override val progressLiveData: LiveData<Boolean> = MutableLiveData()
 
     override fun onRefresh() {
@@ -26,6 +26,7 @@ class UsersViewModel(
             onError = {
                 progressLiveData.mutable().postValue(false)
                 errorLiveData.mutable().postValue(it)
+                errorLiveData.mutable().postValue(null)
             }
         )
     }
