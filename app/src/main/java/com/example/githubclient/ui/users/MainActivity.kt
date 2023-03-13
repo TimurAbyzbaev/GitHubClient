@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity(){
 
         viewModel.progressLiveData.observe(this ){ showProgress(it) }
         viewModel.usersLiveData.observe(this ){ showUsers(it) }
-        viewModel.errorLiveData?.observe(this ){ showError(it) }
+        viewModel.errorLiveData.observe(this ){ showError(it) }
 
     }
 
@@ -55,7 +55,6 @@ class MainActivity : AppCompatActivity(){
     }
 
     private fun showError(throwable: Throwable) {
-        if(throwable == null) return
         Toast.makeText(this, throwable.message, Toast.LENGTH_SHORT).show()
     }
 
