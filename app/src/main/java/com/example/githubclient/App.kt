@@ -3,8 +3,7 @@ package com.example.githubclient
 import android.app.Application
 import android.content.Context
 import androidx.fragment.app.Fragment
-import com.example.githubclient.data.FakeUsersRepoImpl
-import com.example.githubclient.data.RetrofitUsersRepoImpl
+import com.example.githubclient.data.retrofit.RetrofitUsersRepoImpl
 import com.example.githubclient.domain.repos.UsersRepo
 
 class App: Application() {

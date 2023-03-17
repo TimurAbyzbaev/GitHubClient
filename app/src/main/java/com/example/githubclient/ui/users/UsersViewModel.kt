@@ -12,9 +12,14 @@ class UsersViewModel(
     override val usersLiveData: LiveData<List<UserEntity>> = MutableLiveData()
     override val errorLiveData: LiveData<Throwable> = SingleEventLiveData() //single event
     override val progressLiveData: LiveData<Boolean> = MutableLiveData()
+    override val openProfileLiveData: LiveData<Unit> =  SingleEventLiveData() //single event
 
     override fun onRefresh() {
         loadData()
+    }
+
+    override fun onUserClick(userEntity: UserEntity) {
+        openProfileLiveData.mutable().postValue(Unit)
     }
 
     private fun loadData() {

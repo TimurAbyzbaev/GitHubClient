@@ -1,8 +1,5 @@
-package com.example.githubclient.data
+package com.example.githubclient.data.retrofit
 
-import android.os.Handler
-import android.os.Looper
-import com.example.githubclient.data.retrofit.GithubApi
 import com.example.githubclient.domain.entities.UserEntity
 import com.example.githubclient.domain.repos.UsersRepo
 import retrofit2.Call

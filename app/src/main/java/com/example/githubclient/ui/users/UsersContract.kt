@@ -1,7 +1,6 @@
 package com.example.githubclient.ui.users
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.example.githubclient.domain.entities.UserEntity
 
 interface UsersContract {
@@ -16,8 +15,9 @@ interface UsersContract {
         val usersLiveData: LiveData<List<UserEntity>>
         val errorLiveData: LiveData<Throwable>
         val progressLiveData: LiveData<Boolean>
-
-    fun onRefresh()
+        val openProfileLiveData: LiveData<Unit>
+        fun onRefresh()
+        fun onUserClick(userEntity: UserEntity)
     }
 
 }

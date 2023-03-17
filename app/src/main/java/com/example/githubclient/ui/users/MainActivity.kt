@@ -1,5 +1,6 @@
 package com.example.githubclient.ui.users
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -8,10 +9,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.githubclient.app
 import com.example.githubclient.domain.entities.UserEntity
 import com.example.githubclient.databinding.ActivityMainBinding
+import com.example.githubclient.ui.profile.ProfileActivity
 
 class MainActivity : AppCompatActivity(){
     private lateinit var binding: ActivityMainBinding
-    private val adapter = UsersAdapter()
+    private val adapter = UsersAdapter {
+        viewModel.onUserClick(it)
+
+    }
     private lateinit var viewModel: UsersContract.ViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,7 +35,11 @@ class MainActivity : AppCompatActivity(){
         viewModel.progressLiveData.observe(this ){ showProgress(it) }
         viewModel.usersLiveData.observe(this ){ showUsers(it) }
         viewModel.errorLiveData.observe(this ){ showError(it) }
+        viewModel.openProfileLiveData.observe(this) { openProfileScreen() }
 
+    }
+    private fun openProfileScreen(){
+        startActivity(Intent(this, ProfileActivity::class.java))
     }
 
     private fun extractViewModel(): UsersContract.ViewModel {
