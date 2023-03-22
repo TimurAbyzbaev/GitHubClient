@@ -8,6 +8,6 @@ import retrofit2.http.GET
 
 interface GithubApi {
     @GET("users")
-    fun getUsers(): Single<List<UserEntity>>
+    fun getUsers(): Single<List<UserEntityDto>>
 }
 
