@@ -4,6 +4,7 @@ import android.os.Handler
 import android.os.Looper
 import com.example.githubclient.domain.entities.UserEntity
 import com.example.githubclient.domain.repos.UsersRepo
+import io.reactivex.rxjava3.core.Single
 
 private const val DATA_LOADING_FAKE_DELAY = 2000L
 
@@ -20,4 +21,6 @@ class FakeUsersRepoImpl: UsersRepo {
             onError?.invoke(RuntimeException("Я ошибка"))
         }, DATA_LOADING_FAKE_DELAY)
     }
+
+    override fun getUsers(): Single<List<UserEntity>> = Single.just(data)
 }

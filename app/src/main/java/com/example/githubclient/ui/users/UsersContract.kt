@@ -2,6 +2,7 @@ package com.example.githubclient.ui.users
 
 import androidx.lifecycle.LiveData
 import com.example.githubclient.domain.entities.UserEntity
+import io.reactivex.rxjava3.core.Observable
 
 interface UsersContract {
 
@@ -12,10 +13,10 @@ interface UsersContract {
     }*/
 
     interface ViewModel {
-        val usersLiveData: LiveData<List<UserEntity>>
-        val errorLiveData: LiveData<Throwable>
-        val progressLiveData: LiveData<Boolean>
-        val openProfileLiveData: LiveData<Unit>
+        val usersLiveData: Observable<List<UserEntity>>
+        val errorLiveData: Observable<Throwable>
+        val progressLiveData: Observable<Boolean>
+        val openProfileLiveData: Observable<Unit>
         fun onRefresh()
         fun onUserClick(userEntity: UserEntity)
     }
