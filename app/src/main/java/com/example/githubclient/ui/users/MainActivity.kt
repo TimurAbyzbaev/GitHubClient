@@ -1,5 +1,7 @@
 package com.example.githubclient.ui.users
 
+import android.annotation.SuppressLint
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -8,12 +10,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.githubclient.app
 import com.example.githubclient.domain.entities.UserEntity
 import com.example.githubclient.databinding.ActivityMainBinding
+import com.example.githubclient.ui.profile.ProfileActivity
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.disposables.Disposable
 
 class MainActivity : AppCompatActivity(){
     private lateinit var binding: ActivityMainBinding
-    private val adapter = UsersAdapter()
-    private lateinit var viewModel: UsersContract.ViewModel
+    private val adapter = UsersAdapter {
+        viewModel.onUserClick(it)
 
+    }
+    private lateinit var viewModel: UsersContract.ViewModel
+    private val viewModelDisposable: CompositeDisposable = CompositeDisposable()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -24,13 +32,24 @@ class MainActivity : AppCompatActivity(){
 
     }
 
+    @SuppressLint("CheckResult")
     private fun initViewModel() {
         viewModel = extractViewModel()
 
-        viewModel.progressLiveData.observe(this ){ showProgress(it) }
-        viewModel.usersLiveData.observe(this ){ showUsers(it) }
-        viewModel.errorLiveData.observe(this ){ showError(it) }
+        viewModelDisposable.addAll(
+            viewModel.progressLiveData.subscribe{ showProgress(it) },
+                    viewModel.usersLiveData.subscribe{ showUsers(it) },
+                    viewModel.errorLiveData.subscribe{ showError(it) },
+                    viewModel.openProfileLiveData.subscribe { openProfileScreen() }
+        )
+    }
 
+    override fun onDestroy() {
+        viewModelDisposable.dispose()
+        super.onDestroy()
+    }
+    private fun openProfileScreen(){
+        startActivity(Intent(this, ProfileActivity::class.java))
     }
 
     private fun extractViewModel(): UsersContract.ViewModel {
