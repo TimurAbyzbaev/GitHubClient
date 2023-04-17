@@ -1,10 +1,15 @@
 package com.example.githubclient.ui.users
 
 import android.annotation.SuppressLint
+import android.util.Log
+import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.githubclient.domain.entities.UserEntity
 import com.example.githubclient.domain.repos.UsersRepo
+import com.example.githubclient.ui.profile.ProfileActivity
 import com.example.githubclient.utils.SingleEventLiveData
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
@@ -18,14 +23,15 @@ class UsersViewModel(
     override val usersLiveData: Observable<List<UserEntity>> = BehaviorSubject.create()
     override val errorLiveData: Observable<Throwable> = BehaviorSubject.create() //single event
     override val progressLiveData: Observable<Boolean> = BehaviorSubject.create()
-    override val openProfileLiveData: Observable<Unit> =  BehaviorSubject.create()//single event
+    override val openProfileLiveData: Observable<UserEntity> =  BehaviorSubject.create()//single event
 
     override fun onRefresh() {
         loadData()
     }
 
     override fun onUserClick(userEntity: UserEntity) {
-        openProfileLiveData
+        openProfileLiveData.mutable().onNext(userEntity)
+        Log.d("CLICK", "ItemCliked ${userEntity.login}")
     }
 
     @SuppressLint("CheckResult")

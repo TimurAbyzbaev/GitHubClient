@@ -16,7 +16,7 @@ interface UsersContract {
         val usersLiveData: Observable<List<UserEntity>>
         val errorLiveData: Observable<Throwable>
         val progressLiveData: Observable<Boolean>
-        val openProfileLiveData: Observable<Unit>
+        val openProfileLiveData: Observable<UserEntity>
         fun onRefresh()
         fun onUserClick(userEntity: UserEntity)
     }

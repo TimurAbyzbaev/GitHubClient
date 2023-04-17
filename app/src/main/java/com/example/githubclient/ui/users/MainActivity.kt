@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.githubclient.R
 import com.example.githubclient.app
 import com.example.githubclient.domain.entities.UserEntity
 import com.example.githubclient.databinding.ActivityMainBinding
@@ -18,7 +19,6 @@ class MainActivity : AppCompatActivity(){
     private lateinit var binding: ActivityMainBinding
     private val adapter = UsersAdapter {
         viewModel.onUserClick(it)
-
     }
     private lateinit var viewModel: UsersContract.ViewModel
     private val viewModelDisposable: CompositeDisposable = CompositeDisposable()
@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity(){
             viewModel.progressLiveData.subscribe{ showProgress(it) },
                     viewModel.usersLiveData.subscribe{ showUsers(it) },
                     viewModel.errorLiveData.subscribe{ showError(it) },
-                    viewModel.openProfileLiveData.subscribe { openProfileScreen() }
+                    viewModel.openProfileLiveData.subscribe { openProfileScreen(it) }
         )
     }
 
@@ -48,8 +48,10 @@ class MainActivity : AppCompatActivity(){
         viewModelDisposable.dispose()
         super.onDestroy()
     }
-    private fun openProfileScreen(){
-        startActivity(Intent(this, ProfileActivity::class.java))
+    private fun openProfileScreen(userEntity: UserEntity){
+        val myIntent = Intent(this, ProfileActivity::class.java)
+        myIntent.putExtra("USER", userEntity)
+        startActivity(myIntent)
     }
 
     private fun extractViewModel(): UsersContract.ViewModel {
